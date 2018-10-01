@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as BooksAPI from '../BooksAPI';
 import Book from './Book';
+import { Link } from 'react-router-dom';
 
 class Search extends Component {
     state = {
@@ -8,6 +9,8 @@ class Search extends Component {
         books: [],
     }
 
+    // TODO: address issue with 'art' vs 'artificial intellegence'
+    // TODO: might be related, search for multiple words
     fetchBooks = (query) => {
         BooksAPI.search(query).then(books => {
             this.setState({ books: books })
@@ -24,13 +27,12 @@ class Search extends Component {
         e.preventDefault();
         this.setState({ query: e.target.value })
     }
-
     render() {
         
         return (
             <div className="search-books">
                 <div className="search-books-bar">
-                <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
+                <Link to='/' className="close-search">Close</Link>
                     <div className="search-books-input-wrapper">
                         {/*
                         NOTES: The search from BooksAPI is limited to a particular set of search terms.
