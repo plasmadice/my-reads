@@ -19,10 +19,13 @@ class Books extends Component {
                 </div>
             </div>
             <div className="book-title">{book.title}</div>
-            <div className="book-authors">{book.authors.map((author, index) => {
-                // Handles multiple authors
-                return (book.authors.length !== index+1) ? `${author}, ` : author;
-            })}</div>
+            <div className="book-authors">{book.authors && (
+                book.authors.map((author, index) => {
+                    /* Handles multiple authors
+                        & lack of authors */
+                    return (book.authors.length !== index+1) ? `${author}, ` : author;
+                })
+            )}</div>
         </div>
     )
   }
