@@ -32,7 +32,7 @@ class Search extends Component {
         return (
             <div className="search-books">
                 <div className="search-books-bar">
-                <Link to='/' className="close-search">Close</Link>
+                    <Link to='/' className="close-search">Close</Link>
                     <div className="search-books-input-wrapper">
                         {/*
                         NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -53,7 +53,7 @@ class Search extends Component {
                 </div>
                 <div className="search-books-results">
                     <ol className="books-grid">
-                        {this.state.books && (
+                        {this.state.books && this.state.books[0] && (
                             this.state.books.map(book => {
                                 book.shelf='none';
                                 return <li key={book.id}>
