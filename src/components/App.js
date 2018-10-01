@@ -20,7 +20,6 @@ class BooksApp extends React.Component {
     this.fetchBooks();
   }
   
-
   render() {
 
     return (
@@ -31,7 +30,8 @@ class BooksApp extends React.Component {
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
-              <div>               
+              <div>
+              {/*Each shelf component gets it's own filtered books*/}               
                 <Shelf 
                   shelfName={'Currently Reading'}
                   books={this.state.books.filter(book => book.shelf === 'currentlyReading')} 
