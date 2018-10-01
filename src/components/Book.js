@@ -7,7 +7,11 @@ class Books extends Component {
     return (
         <div className="book">
             <div className="book-top">
-                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
+                <div className="book-cover" style={{ 
+                    width: 128, 
+                    height: 193, 
+                    backgroundImage: `${book.imageLinks ? `url(${book.imageLinks.thumbnail})` : `url(https://books.google.com/books/content?id=1&printsec=frontcover&img=1&zoom=1&source=gbs_api)`}` }}>
+                </div>
                 <div className="book-shelf-changer">
                 <select defaultValue={book.shelf}>
                     <option value="move" disabled>Move to...</option>
