@@ -8,14 +8,16 @@ class Search extends Component {
         books: [],
     }
 
-    fetchBooks = () => {
-        BooksAPI.search('fitness').then(books => {
+    fetchBooks = (query) => {
+        BooksAPI.search(query).then(books => {
             this.setState({ books: books })
         })
     }
 
-    componentDidMount = () => {
-        this.fetchBooks();
+    componentDidUpdate = (prevProps, prevState) => {
+        if (prevState.query !== this.state.query) {
+            this.fetchBooks(this.state.query);
+        }
     }
     
     handleChange = (e) => {
@@ -50,12 +52,14 @@ class Search extends Component {
                 </div>
                 <div className="search-books-results">
                     <ol className="books-grid">
-                        {this.state.books.map(book => {
-                            book.shelf='none';
-                            return <li key={book.id}>
-                                <Book book={book}/>
-                            </li>
-                        })}
+                        {this.state.books && (
+                            this.state.books.map(book => {
+                                book.shelf='none';
+                                return <li key={book.id}>
+                                    <Book book={book}/>
+                                </li>
+                            })
+                        )}
                     </ol>
                 </div>
         </div>
