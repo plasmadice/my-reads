@@ -8,9 +8,9 @@ class Books extends Component {
         currentShelf: '',
     }
 
+    // Removes book from shelf and triggers a render
     handleChange = (e) => {
         BooksAPI.update({id: e.target.id}, e.target.value);
-        // Removes book from shelf and triggers a render
         if (this.state.selected !== 'none') {
             this.props.removeBook(e.target.id, this.state.selected);
         }
@@ -18,8 +18,8 @@ class Books extends Component {
         this.setState({ currentShelf: e.target.value })
     }
 
+    // because we cannot use defaultValue in a controlled component
     componentDidMount() {
-        // because we cannot use defaultValue in a controlled component
         this.setState({ 
             selected: this.props.book.shelf,  
             currentShelf: this.props.shelf
@@ -33,6 +33,7 @@ class Books extends Component {
         return (
             <div className="book">
                 <div className="book-top">
+                {/* backGroundImage can be blank, in that case we use a placeholder */}
                     <div className="book-cover" style={{ 
                         width: 128, 
                         height: 193, 

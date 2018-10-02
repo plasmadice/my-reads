@@ -16,8 +16,8 @@ class BooksApp extends React.Component {
     updated: false,
   }
 
+  // Fetches books and separates by shelf using .map
   fetchBooks = () => {
-    // Fetches books and separates by shelf using .map
     BooksAPI.getAll().then(books => {
       let bookObj = {
         currentlyReading: [],
@@ -31,6 +31,7 @@ class BooksApp extends React.Component {
     })
   }
 
+  // Removes book from state
   removeBook = (bookId, bookShelf) => {
     let newObj = {};
     Object.assign(newObj, this.state.books);
@@ -38,14 +39,17 @@ class BooksApp extends React.Component {
     this.setState({ books: newObj, updated: true })
   }
 
+  // For <Link /> on search page, to refresh books
   handleClick() {
     this.fetchBooks();
   }
 
+  // Fetch books on itial page load
   componentDidMount = () => {
     this.fetchBooks();
   }
 
+  // Controls updating of book shelves on main page
   componentDidUpdate() {
     if (this.state.updated && Object.keys(this.state.books).length) {
       this.setState({ updated: false })

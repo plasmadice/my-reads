@@ -10,10 +10,8 @@ class Search extends Component {
         shelvedBooks: []
     }
 
-    // TODO: address issue with 'art' vs 'artificial intellegence'
-    // TODO: might be related, search for multiple words
+    // Only search if at least 2 letters are present in query
     fetchBooks = (query) => {
-        // Only search if at least 2 letters are present in query
         if (query.length < 2) {
             this.setState({ books: [] });
         } else {
@@ -23,10 +21,12 @@ class Search extends Component {
         }
     }
 
+    // Controls search form value
     handleChange = (e) => {
         this.setState({ query: e.target.value });
     }
 
+    // Grabs user's books and saves them to state
     componentDidMount() {
         let books = [] 
         BooksAPI.getAll().then(response => {
@@ -35,8 +35,8 @@ class Search extends Component {
         this.setState({ shelvedBooks: books })
     }
 
+    // Fetches each time form query changes (each time letter is added or removed)
     componentDidUpdate = (prevProps, prevState) => {
-        // Fetches each time form query changes (each time letter is added or removed)
         if (prevState.query !== this.state.query) {
             this.fetchBooks(this.state.query);
         }
@@ -49,14 +49,6 @@ class Search extends Component {
                 <div className="search-books-bar">
                     <Link to='/' className="close-search" onClick={this.props.handleClick}>Close</Link>
                     <div className="search-books-input-wrapper">
-                        {/*
-                        NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                        You can find these search terms here:
-                        https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                        However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                        you don't find a specific author or title. Every search is limited by search terms.
-                        */}
                         <input 
                             type="text" 
                             placeholder="Search by title or author" 
