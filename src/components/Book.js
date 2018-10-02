@@ -6,7 +6,6 @@ class Books extends Component {
     state = {
         selected: '',
         currentShelf: '',
-        moved: false
     }
 
     handleChange = (e) => {
@@ -30,7 +29,6 @@ class Books extends Component {
     render() {
         const { book } = this.props;
         const { currentShelf } = this.state;
-        console.log(this.props);
         
         return (
             <div className="book">

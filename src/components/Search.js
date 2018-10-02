@@ -72,7 +72,6 @@ class Search extends Component {
                         {this.state.books && this.state.books[0] && (
                             this.state.books.map(book => {
                                 let shelfCheck = this.state.shelvedBooks.filter(a => a.id === book.id)
-                                console.log(shelfCheck);
                                 book.shelf='none';
                                 return <li key={book.id}>
                                     <Book 
