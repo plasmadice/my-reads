@@ -12,21 +12,27 @@ class Search extends Component {
     // TODO: address issue with 'art' vs 'artificial intellegence'
     // TODO: might be related, search for multiple words
     fetchBooks = (query) => {
-        BooksAPI.search(query).then(books => {
-            this.setState({ books: books })
-        })
+        // Only search if at least 2 letters are present in query
+        if (query.length < 2) {
+            this.setState({ books: [] });
+        } else {
+            BooksAPI.search(query).then(books => {
+                this.setState({ books: books })
+            })
+        }
     }
 
     componentDidUpdate = (prevProps, prevState) => {
+        // Fetches each time form query changes (each time letter is added or removed)
         if (prevState.query !== this.state.query) {
             this.fetchBooks(this.state.query);
         }
     }
     
     handleChange = (e) => {
-        e.preventDefault();
-        this.setState({ query: e.target.value })
+        this.setState({ query: e.target.value });
     }
+
     render() {
         
         return (
@@ -53,6 +59,7 @@ class Search extends Component {
                 </div>
                 <div className="search-books-results">
                     <ol className="books-grid">
+                    {/* Generates books if this.state.books exists and is not empty */}
                         {this.state.books && this.state.books[0] && (
                             this.state.books.map(book => {
                                 book.shelf='none';
