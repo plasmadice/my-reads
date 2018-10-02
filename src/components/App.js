@@ -38,6 +38,10 @@ class BooksApp extends React.Component {
     this.setState({ books: newObj, updated: true })
   }
 
+  handleClick() {
+    this.fetchBooks();
+  }
+
   componentDidMount = () => {
     this.fetchBooks();
   }
@@ -85,7 +89,7 @@ class BooksApp extends React.Component {
             </div>
           </div>
         )}/>
-        <Route exact path='/search' component={Search} />
+        <Route exact path='/search' render={() => <Search handleClick={this.handleClick.bind(this)}/>} />
       </div>
     )
   }
