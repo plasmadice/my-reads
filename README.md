@@ -1,7 +1,7 @@
 # Project Overview
-This is a project created with React. The purpose of the project is to demonstrate a competency with react. Specifically in being able to create components that work well together and how to manage state and route.
+This is a project created with React. The purpose of the project is to demonstrate a competency with react. Specifically in being able to create components that work well together as well as how to manage state and route.
 
-## How it Works
+## How it Works // Getting Started
 
 Clone this repository, `cd project6-myreads` and `npm install` to get the required depencies. 
 
