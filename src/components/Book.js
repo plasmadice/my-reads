@@ -15,10 +15,8 @@ class Books extends Component {
         if (this.state.selected !== 'none') {
             this.props.removeBook(e.target.id, this.state.selected);
         }
-        // Disables a book if it's moved from search
-        if (e.target.value !== 'none') {
-            this.setState({ moved: true });
-        }
+
+        this.setState({ currentShelf: e.target.value })
     }
 
     componentDidMount() {
@@ -47,7 +45,6 @@ class Books extends Component {
                         id={book.id} 
                         onChange={this.handleChange} 
                         value={currentShelf}
-                        disabled={this.state.moved}
                         >
 
                         <option value="move" disabled>Move to...</option>
