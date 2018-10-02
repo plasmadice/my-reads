@@ -3,7 +3,7 @@ This is a project created with React. The purpose of the project is to demonstra
 
 ## How it Works // Getting Started
 
-Clone this repository, `cd project6-myreads` and `npm install` to get the required depencies. 
+Clone this repository, `cd project6-myreads` and `npm install` to get the required dependencies. 
 
 Start the development server with `npm start`
 
