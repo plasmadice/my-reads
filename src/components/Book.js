@@ -2,8 +2,21 @@ import React, { Component } from 'react'
 import * as BooksAPI from '../BooksAPI';
 
 class Books extends Component {
-    updateBook = (book) => {
 
+    state = {
+        selected: '',
+    }
+
+    handleChange = (e) => {
+        BooksAPI.update({id: e.target.id}, e.target.value);
+        if (this.state.selected !== 'none') {
+            this.props.removeBook(e.target.id, this.state.selected);
+        }
+    }
+
+    componentDidMount() {
+        // because we cannot use defaultValue in a controlled component
+        this.setState({ selected: this.props.book.shelf });
     }
 
     render() {
@@ -18,7 +31,7 @@ class Books extends Component {
                         backgroundImage: `${book.imageLinks ? `url(${book.imageLinks.thumbnail})` : `url(https://books.google.com/books/content?id=1&printsec=frontcover&img=1&zoom=1&source=gbs_api)`}` }}>
                     </div>
                     <div className="book-shelf-changer">
-                    <select defaultValue={book.shelf}>
+                    <select id={book.id} onChange={this.handleChange} value={this.state.selected}>
                         <option value="move" disabled>Move to...</option>
                         <option value="currentlyReading">Currently Reading</option>
                         <option value="wantToRead">Want to Read</option>

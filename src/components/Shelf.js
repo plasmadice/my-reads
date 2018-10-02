@@ -1,8 +1,11 @@
 import React from 'react'
 import Book from './Book';
 
+
+
 const Shelf = (props) => {
-    const { books, shelfName } = props;
+
+    const { books, shelfName, removeBook } = props;
 
     return (
         <div className="bookshelf">
@@ -11,7 +14,7 @@ const Shelf = (props) => {
                 <ol className="books-grid">
                     {books.map(book => (
                         <li key={book.id}>
-                            <Book book={book} />
+                            <Book book={book} removeBook={removeBook} />
                         </li>
                     ))}
                 </ol>

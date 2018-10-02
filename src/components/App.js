@@ -6,18 +6,47 @@ import Shelf from './Shelf';
 import { Route, Link } from 'react-router-dom';
 
 class BooksApp extends React.Component {
+
   state = {
-    books: [],
+    books: {
+      currentlyReading: [],
+      wantToRead: [],
+      read: []
+    },
+    updated: false,
   }
 
   fetchBooks = () => {
+    // Fetches books and separates by shelf using .map
     BooksAPI.getAll().then(books => {
-      this.setState({ books: books })
+      let bookObj = {
+        currentlyReading: [],
+        wantToRead: [],
+        read: []
+      };
+
+      books.map((book) => bookObj[book.shelf].push(book))
+
+      this.setState({ books: bookObj })
     })
+  }
+
+  removeBook = (bookId, bookShelf) => {
+    let newObj = {};
+    Object.assign(newObj, this.state.books);
+    newObj[bookShelf] = this.state.books[bookShelf].filter(book => book.id !== bookId)
+    this.setState({ books: newObj, updated: true })
   }
 
   componentDidMount = () => {
     this.fetchBooks();
+  }
+
+  componentDidUpdate() {
+    if (this.state.updated && Object.keys(this.state.books).length) {
+      this.setState({ updated: false })
+      setTimeout(() => this.fetchBooks(), 500)
+    }
   }
   
   render() {
@@ -34,17 +63,20 @@ class BooksApp extends React.Component {
               {/*Each shelf component gets it's own filtered books*/}               
                 <Shelf 
                   shelfName={'Currently Reading'}
-                  books={this.state.books.filter(book => book.shelf === 'currentlyReading')} 
+                  books={this.state.books.currentlyReading} 
+                  removeBook={this.removeBook}
                 />
   
                 <Shelf 
                   shelfName={'Want to Read'}
-                  books={this.state.books.filter(book => book.shelf === 'wantToRead')} 
+                  books={this.state.books.wantToRead} 
+                  removeBook={this.removeBook}
                 />
   
                 <Shelf 
                   shelfName={'Read'}
-                  books={this.state.books.filter(book => book.shelf === 'read')} 
+                  books={this.state.books.read} 
+                  removeBook={this.removeBook}
                 />
               </div>
             </div>
@@ -53,7 +85,7 @@ class BooksApp extends React.Component {
             </div>
           </div>
         )}/>
-        <Route exact path='/search' component={Search} />
+        <Route exact path='/search' render={() => <Search books={this.state.books}/>} />
       </div>
     )
   }

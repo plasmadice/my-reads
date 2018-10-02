@@ -22,18 +22,19 @@ class Search extends Component {
         }
     }
 
+    handleChange = (e) => {
+        this.setState({ query: e.target.value });
+    }
+
     componentDidUpdate = (prevProps, prevState) => {
         // Fetches each time form query changes (each time letter is added or removed)
         if (prevState.query !== this.state.query) {
             this.fetchBooks(this.state.query);
         }
     }
-    
-    handleChange = (e) => {
-        this.setState({ query: e.target.value });
-    }
 
     render() {
+        console.log(this.props.books);
         
         return (
             <div className="search-books">
