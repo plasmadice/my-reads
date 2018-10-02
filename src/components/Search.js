@@ -7,6 +7,7 @@ class Search extends Component {
     state = {
         query: '',
         books: [],
+        shelvedBooks: []
     }
 
     // TODO: address issue with 'art' vs 'artificial intellegence'
@@ -26,6 +27,14 @@ class Search extends Component {
         this.setState({ query: e.target.value });
     }
 
+    componentDidMount() {
+        let books = [] 
+        BooksAPI.getAll().then(response => {
+            response.map(book => books.push({id: book.id, shelf: book.shelf}))
+        })
+        this.setState({ shelvedBooks: books })
+    }
+
     componentDidUpdate = (prevProps, prevState) => {
         // Fetches each time form query changes (each time letter is added or removed)
         if (prevState.query !== this.state.query) {
@@ -34,7 +43,6 @@ class Search extends Component {
     }
 
     render() {
-        console.log(this.props.books);
         
         return (
             <div className="search-books">
@@ -63,9 +71,14 @@ class Search extends Component {
                     {/* Generates books if this.state.books exists and is not empty */}
                         {this.state.books && this.state.books[0] && (
                             this.state.books.map(book => {
+                                let shelfCheck = this.state.shelvedBooks.filter(a => a.id === book.id)
+                                console.log(shelfCheck);
                                 book.shelf='none';
                                 return <li key={book.id}>
-                                    <Book book={book}/>
+                                    <Book 
+                                        book={book}
+                                        shelf={shelfCheck[0] ? shelfCheck[0].shelf : 'none'}
+                                    />
                                 </li>
                             })
                         )}

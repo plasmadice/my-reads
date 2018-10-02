@@ -5,22 +5,34 @@ class Books extends Component {
 
     state = {
         selected: '',
+        currentShelf: '',
+        moved: false
     }
 
     handleChange = (e) => {
         BooksAPI.update({id: e.target.id}, e.target.value);
+        // Removes book from shelf and triggers a render
         if (this.state.selected !== 'none') {
             this.props.removeBook(e.target.id, this.state.selected);
+        }
+        // Disables a book if it's moved from search
+        if (e.target.value !== 'none') {
+            this.setState({ moved: true });
         }
     }
 
     componentDidMount() {
         // because we cannot use defaultValue in a controlled component
-        this.setState({ selected: this.props.book.shelf });
+        this.setState({ 
+            selected: this.props.book.shelf,  
+            currentShelf: this.props.shelf
+        });
     }
 
     render() {
         const { book } = this.props;
+        const { currentShelf } = this.state;
+        console.log(this.props);
         
         return (
             <div className="book">
@@ -31,12 +43,18 @@ class Books extends Component {
                         backgroundImage: `${book.imageLinks ? `url(${book.imageLinks.thumbnail})` : `url(https://books.google.com/books/content?id=1&printsec=frontcover&img=1&zoom=1&source=gbs_api)`}` }}>
                     </div>
                     <div className="book-shelf-changer">
-                    <select id={book.id} onChange={this.handleChange} value={this.state.selected}>
+                    <select 
+                        id={book.id} 
+                        onChange={this.handleChange} 
+                        value={currentShelf}
+                        disabled={this.state.moved}
+                        >
+
                         <option value="move" disabled>Move to...</option>
-                        <option value="currentlyReading">Currently Reading</option>
-                        <option value="wantToRead">Want to Read</option>
-                        <option value="read">Read</option>
-                        <option value="none">None</option>
+                        <option value="currentlyReading" disabled={currentShelf === 'currentlyReading'}>Currently Reading</option>
+                        <option value="wantToRead" disabled={currentShelf === 'wantToRead'}>Want to Read</option>
+                        <option value="read" disabled={currentShelf === 'read'}>Read</option>
+                        <option value="none" disabled={currentShelf === 'none'}>None</option>
                     </select>
                     </div>
                 </div>
